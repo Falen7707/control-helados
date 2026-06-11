@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Helados</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>🍦 Control de Ventas</h1>
+
+<div class="stats-container">
+
+    <div class="card total-card">
+        <h3>💰 Ventas Totales</h3>
+        <h2>${{ "%.2f"|format(ganancia_total) }}</h2>
+    </div>
+
+    <div class="card">
+        <h3>👩 Comisión (35%)</h3>
+        <h2>${{ "%.2f"|format(comision) }}</h2>
+    </div>
+
+    <div class="card">
+        <h3>🍦 Helados Vendidos Hoy</h3>
+        <h2>{{ helados_vendidos }}</h2>
+    </div>
+
+    <div class="card">
+        <h3>📅 Fecha</h3>
+        <h2>
+            {{ fecha_actual }}
+            <a href="/historial" class="historial-link" title="Ver historial">
+            📖
+        </a>
+        </h2>
+    </div>
+    
+    <div style="margin-bottom:15px;">
+
+</div>
+   
+    <div style="margin-bottom:15px;">
+
+</div>
+
+</div>
+
+    <div class="card">
+
+        <h2>Registrar Venta</h2>
+
+        <form action="/venta" method="post">
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>Producto</label>
+
+                    <select name="producto">
+
+                        <option value="Barquillon">
+                            🍫 Barquillon - $1.83
+                        </option>
+
+                        <option value="Concha de Coco">
+                            🍦 Concha de Coco - $2.30
+                        </option>
+
+                        <option value="Tetas">
+                            🍓 Tetas - $0.94
+                        </option>
+
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Cantidad</label>
+
+                    <input
+                        type="number"
+                        name="cantidad"
+                        min="1"
+                        required
+                    >
+                </div>
+
+            </div>
+
+            <button type="submit">
+                Registrar Venta
+            </button>
+
+        </form>
+
+    </div>
+
+    <br><br>
+
+    <div class="card">
+
+        <h2>📋 Historial de ventas del dia</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Total</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% if ventas %}
+
+                    {% for venta in ventas %}
+                    <tr>
+                        <td>{{ venta[0] }}</td>
+                        <td>{{ venta[1] }}</td>
+                        <td>${{ "%.2f"|format(venta[2]) }}</td>
+                        <td>${{ "%.2f"|format(venta[3]) }}</td>
+                        <td>{{ venta[4] }}</td>
+                    </tr>
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+                        <td colspan="5" class="empty-table">
+                            No hay ventas registradas.
+                        </td>
+                    </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+</body>
+</html>
