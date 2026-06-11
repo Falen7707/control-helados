@@ -112,24 +112,32 @@
                     <th>Precio Unitario</th>
                     <th>Total</th>
                     <th>Fecha</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
 
             <tbody>
 
-                {% if ventas %}
+            {% if ventas %}
 
-                    {% for venta in ventas %}
-                    <tr>
-                        <td>{{ venta[0] }}</td>
-                        <td>{{ venta[1] }}</td>
-                        <td>${{ "%.2f"|format(venta[2]) }}</td>
-                        <td>${{ "%.2f"|format(venta[3]) }}</td>
-                        <td>{{ venta[4] }}</td>
-                    </tr>
-                    {% endfor %}
+                {% for venta in ventas %}
+                <tr>
+                    <td>{{ venta[1] }}</td>
+                    <td>{{ venta[2] }}</td>
+                    <td>${{ "%.2f"|format(venta[3]) }}</td>
+                    <td>${{ "%.2f"|format(venta[4]) }}</td>
+                    <td>{{ venta[5] }}</td>
 
-                {% else %}
+                    <td>
+                        <a href="/eliminar/{{ venta[0] }}"
+                        onclick="return confirm('¿Eliminar esta venta?')">
+                            🗑️
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+
+            {% else %}
 
                     <tr>
                         <td colspan="5" class="empty-table">

@@ -19,11 +19,12 @@ def inicio(request: Request):
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT producto,
-               cantidad,
-               precio,
-               cantidad * precio AS total,
-               fecha
+        SELECT id,
+            producto,
+            cantidad,
+            precio,
+            cantidad * precio AS total,
+            fecha
         FROM ventas
         WHERE date(fecha) = date('now')
         ORDER BY id DESC
@@ -147,3 +148,22 @@ def resumen():
     return {
         "ganancia_total": total
     }
+
+@app.get("/eliminar/{venta_id}")
+def eliminar_venta(venta_id: int):
+
+    conn = sqlite3.connect("inventario.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "DELETE FROM ventas WHERE id = ?",
+        (venta_id,)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return RedirectResponse(
+        url="/",
+        status_code=303
+    )
